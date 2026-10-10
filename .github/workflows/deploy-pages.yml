@@ -21,12 +21,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 准备 Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          # 固定 22：本机验证环境为 v22.22.2。
+          # 曾用 20 导致 jsdom→undici 抛出
+          # “webidl.util.markAsUncloneable is not a function” 的未捕获错误（Node 20 与 undici 8.x 不兼容），
+          # 测试虽全部通过但进程退出码非 0，构建被中断。
+          node-version: 22
           cache: npm
 
       - name: 安装依赖
