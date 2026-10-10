@@ -7,6 +7,8 @@
 - **形态**：纯前端 Web 应用，React + Vite + TypeScript，可静态部署，**无需后端、无需联网**。
 - **目标用途**：2026 年第十四届全国大学生数字媒体科技作品及创意竞赛，自主选题类「智慧教育与科普创作类」赛项。
 - **全部案例均为虚构教学模拟**，不对应任何真实事件、机构或个人。
+- **仓库**：https://github.com/anontomorin/mingjian
+- **在线演示（GitHub Pages）**：https://anontomorin.github.io/mingjian/
 
 ---
 
@@ -30,7 +32,7 @@ npm run preview # 预览生产构建（默认 http://localhost:4173）
 
 ```bash
 npm run typecheck  # 仅运行 TypeScript 类型检查
-npm test           # 运行单元测试（Vitest，共 71 个用例）
+npm test           # 运行单元测试（Vitest，共 107 个用例）
 ```
 
 ### 关于 npm 源
@@ -48,6 +50,22 @@ npm test           # 运行单元测试（Vitest，共 71 个用例）
 - 深链刷新（如直接打开 `/case/C03`）需要服务端配置 SPA fallback：把所有未匹配路径回退到 `index.html`。
   仓库已附 `public/_redirects`（Netlify 规则）；其他平台请自行配置等价规则。
   `npm run preview` 已内置该回退，可直接验证。
+
+#### 本仓库的 GitHub Pages 部署
+
+仓库内 `.github/workflows/deploy-pages.yml` 会在每次推送到 `main` 时自动执行
+类型检查 → 单元测试 → 构建 → 部署，发布地址为 https://anontomorin.github.io/mingjian/ 。
+
+工作流做了三件适配子路径部署的事：
+
+```bash
+npx vite build --base=/mingjian/        # 资源路径改为 /mingjian/ 前缀
+cp dist/index.html dist/404.html        # Pages 无 SPA 回退，用 404 副本接管深链
+touch dist/.nojekyll                    # 避免 Pages 用 Jekyll 处理构建产物
+```
+
+首次使用需在仓库 **Settings → Pages → Source** 中选择 **GitHub Actions**；
+之后每次 push 都会自动更新线上版本，也可在 Actions 页手动 `workflow_dispatch` 触发。
 
 ---
 
