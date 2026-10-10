@@ -1,0 +1,70 @@
+name: 构建并部署到 GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 最小权限：只读代码，仅允许写入 Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只允许一个部署，新推送会取消排队中的旧部署
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 安装依赖
+        # 项目根目录的 .npmrc 指向腾讯云镜像（仅为本机网络环境所设），
+        # CI 环境直连官方源即可，这里用命令行参数覆盖它。
+        run: npm ci --registry=https://registry.npmjs.org/ --no-audit --no-fund
+
+      - name: 类型检查
+        run: npm run typecheck
+
+      - name: 单元测试
+        run: npm test
+
+      - name: 构建（Pages 子路径）
+        # GitHub Pages 部署在 /mingjian/ 子路径下，需显式指定 base；
+        # 本地开发不受影响，仍使用默认的 /。
+        run: npx vite build --base=/mingjian/
+
+      - name: 补充 SPA 深链与 Jekyll 配置
+        # Pages 不提供 SPA 回退：把 index.html 复制为 404.html，
+        # 直接访问 /case/C01 这类深链时会落到该页，由前端路由接管。
+        # .nojekyll 避免 Pages 用 Jekyll 处理构建产物（会吞掉下划线开头的资源）。
+        run: |
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
+
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
