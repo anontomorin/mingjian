@@ -1,0 +1,603 @@
+/**
+ * 明鉴 · 档案／编辑室质感覆盖层
+ *
+ * 在 global.css 之后加载，统一改写视觉表现：
+ * 靠「线 + 留白 + 衬线标题 + 等宽编号」建立层级，
+ * 去掉大圆角、彩色底块、渐变与阴影堆叠这类模板化装饰。
+ */
+
+/* ---------------- 基础排版 ---------------- */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.mj-h1,
+.mj-h2,
+.mj-h3,
+.mj-h4 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.mj-h1 {
+  font-size: var(--font-size-3xl);
+  line-height: 1.2;
+}
+
+.mj-h2 {
+  font-size: var(--font-size-xl);
+  line-height: 1.35;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mj-h3 {
+  font-size: var(--font-size-lg);
+}
+
+/* 页面容器：顶部一条双线，像档案封面 */
+.mj-page {
+  border-top: 3px double var(--color-border-strong);
+  padding-top: var(--space-6);
+}
+
+/* 章节小标题：等宽小字 + 字距，不再做成彩色胶囊 */
+.mj-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.mj-tiny {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-faint);
+  line-height: 1.6;
+}
+
+.mj-muted {
+  color: var(--color-text-muted);
+}
+
+.mj-lede {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-loose);
+  color: var(--color-text-muted);
+}
+
+/* ---------------- 页眉 ---------------- */
+
+.mj-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border-strong);
+  box-shadow: none;
+}
+
+.mj-brand {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.mj-brand__mark {
+  border-radius: 2px;
+  background: var(--color-primary);
+  color: var(--color-text-invert);
+}
+
+.mj-brand__tagline {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-text-faint);
+}
+
+.mj-nav__link {
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.mj-nav__link[aria-current="page"] {
+  background: transparent;
+  color: var(--color-primary);
+  box-shadow: inset 0 -2px 0 var(--color-primary);
+}
+
+/* ---------------- 首页 ---------------- */
+
+/* 只在宽屏改分栏：global.css 在 900px 以下已改为单列，不能无条件覆盖 */
+@media (min-width: 901px) {
+  .mj-hero {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: var(--space-10);
+  }
+}
+
+.mj-hero__title {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 5.6vw, 58px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.12;
+}
+
+.mj-hero__claim {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  color: var(--color-text);
+  border-left: 3px solid var(--color-primary);
+  padding-left: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.mj-hero__desc {
+  max-width: 48ch;
+  color: var(--color-text-muted);
+}
+
+.mj-hero__note {
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* 能力条目：编号列表，不再用图标卡片 */
+.mj-ability-grid {
+  display: grid;
+  /* 单列：编号条目是纵向列表，不是三张并排卡片 */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.mj-ability {
+  display: grid;
+  grid-template-columns: 56px 160px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: baseline;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.mj-ability:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.mj-ability__index {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+}
+
+.mj-ability__title {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.mj-ability__desc {
+  color: var(--color-text-muted);
+  line-height: var(--line-height-loose);
+}
+
+/* 进度卡：表格化，不再是大数字方块 */
+.mj-progress-card {
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+}
+
+.mj-stat-grid {
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.mj-stat {
+  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-3) 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.mj-stat:nth-child(2n) {
+  border-right: 0;
+  padding-left: var(--space-4);
+}
+
+.mj-stat__value {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mj-stat__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-faint);
+}
+
+/* ---------------- 卡片 ---------------- */
+
+.mj-card {
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  background: var(--color-surface);
+}
+
+.mj-card__head {
+  background: var(--color-surface);
+  padding: var(--space-3) var(--space-5);
+}
+
+.mj-card__head .mj-h3 {
+  font-family: var(--font-serif);
+  letter-spacing: 0.02em;
+}
+
+.mj-card__body {
+  padding: var(--space-5);
+}
+
+/* ---------------- 按钮 ---------------- */
+
+.mj-btn {
+  border-radius: 2px;
+  box-shadow: none;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.mj-btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-invert);
+}
+
+.mj-btn--primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.mj-btn--secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+/* ---------------- 标签 / 徽标 ---------------- */
+
+.mj-tag,
+.mj-badge {
+  border-radius: 2px;
+  font-weight: 500;
+  padding: 1px 8px;
+  background: transparent;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+.mj-tag--primary {
+  background: transparent;
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+}
+
+.mj-tag--blue {
+  background: transparent;
+  border-color: var(--color-blue-border);
+  color: var(--color-blue);
+}
+
+.mj-tag--warning,
+.mj-badge {
+  background: var(--color-warning-soft);
+  border-color: var(--color-warning-border);
+  color: var(--color-warning);
+}
+
+.mj-tag--danger {
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger);
+}
+
+.mj-tag--success {
+  background: var(--color-success-soft);
+  border-color: var(--color-success-border);
+  color: var(--color-success);
+}
+
+/* ---------------- 选项 ---------------- */
+
+.mj-option {
+  border-radius: 2px;
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: var(--space-3) var(--space-4);
+  align-items: flex-start;
+}
+
+.mj-option:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface);
+  transform: none;
+  box-shadow: none;
+}
+
+/* 勾选框：方形，像纸质表格的复选框 */
+.mj-option__radio {
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  flex: none;
+  margin-top: 3px;
+}
+
+.mj-option[aria-checked="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.mj-option[aria-checked="true"] .mj-option__radio {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+.mj-option__title {
+  font-weight: 500;
+}
+
+.mj-option__desc {
+  color: var(--color-text-muted);
+}
+
+/* ---------------- 提示块 ---------------- */
+
+.mj-callout,
+.mj-banner {
+  border-radius: 2px;
+  box-shadow: none;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+}
+
+.mj-callout--warning,
+.mj-banner--warning {
+  border-left-color: var(--color-warning);
+  background: var(--color-warning-soft);
+}
+
+.mj-callout--primary,
+.mj-banner--info {
+  border-left-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.mj-callout--success {
+  border-left-color: var(--color-success);
+  background: var(--color-success-soft);
+}
+
+/* ---------------- 证据卡 ---------------- */
+
+.mj-evidence {
+  border-radius: 2px;
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.mj-evidence__seq,
+.mj-evidence__index {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+}
+
+/* ---------------- 核查步骤 ---------------- */
+
+.mj-check {
+  border-radius: 2px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.mj-check--done {
+  background: var(--color-surface-soft);
+  border-color: var(--color-success-border);
+}
+
+.mj-check__box {
+  border-radius: 2px;
+}
+
+/* ---------------- 报告页图表区 ---------------- */
+
+.mj-report-grid {
+  gap: var(--space-6);
+}
+
+.mj-score-bar__track {
+  border-radius: 0;
+  background: var(--color-surface-sunken);
+  height: 8px;
+}
+
+.mj-score-bar__fill {
+  border-radius: 0;
+  background: var(--color-primary);
+}
+
+/* ---------------- 流程步骤 ---------------- */
+
+.mj-steps__item {
+  padding: var(--space-3) 0;
+  border-bottom: 1px dashed var(--color-border);
+  line-height: var(--line-height-loose);
+}
+
+/* ---------------- 新手引导弹层 ---------------- */
+
+.mj-guide {
+  max-width: 620px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-raise);
+}
+
+.mj-guide__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
+}
+
+.mj-guide__step {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+.mj-guide__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-faint);
+  margin-left: auto;
+}
+
+.mj-guide__list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mj-guide__list li {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-loose);
+  color: var(--color-text-muted);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-border);
+}
+
+.mj-guide__list li:first-child {
+  border-left-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.mj-guide__nav {
+  display: flex;
+  gap: 6px;
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.mj-guide__dot {
+  width: 22px;
+  height: 3px;
+  background: var(--color-border);
+  display: block;
+}
+
+.mj-guide__dot.is-active {
+  background: var(--color-primary);
+}
+
+/* ---------------- 案例内分步提示条 ---------------- */
+
+.mj-guidebar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-4);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+.mj-guidebar__step {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.mj-guidebar__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mj-guidebar__text {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  flex: 1;
+  min-width: 200px;
+}
+
+.mj-guidebar__close {
+  background: none;
+  border: 0;
+  padding: 2px 4px;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-faint);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.mj-guidebar__close:hover {
+  color: var(--color-text);
+}
+
+@media (max-width: 720px) {
+  .mj-ability {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .mj-ability__title {
+    grid-column: 2;
+  }
+
+  .mj-ability__desc {
+    grid-column: 2;
+    margin-top: var(--space-1);
+  }
+}

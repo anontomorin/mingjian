@@ -1,0 +1,117 @@
+/**
+ * 明鉴 · 设计 Token
+ *
+ * 视觉方向（改版）：档案／编辑室质感
+ * - 纸感暖白底、深墨色文字、细线分隔与编号标记；
+ * - 标题用宋体／衬线，编号与标签用等宽字；
+ * - 蓝与蓝绿作为功能色，橙棕只用于提醒；
+ * - 小圆角、无渐变、无大阴影，靠线与留白建立层级。
+ *
+ * 变量名与旧版保持一致，避免全站样式失效。
+ */
+
+:root {
+  /* 画布与表面：纸感 */
+  --color-bg: #f4f1ea;
+  --color-surface: #fffdf8;
+  --color-surface-soft: #efece3;
+  --color-surface-sunken: #e6e2d7;
+
+  /* 文字：墨色 */
+  --color-text: #1e1c18;
+  --color-text-muted: #554f47;
+  --color-text-faint: #8a8275;
+  --color-text-invert: #fffdf8;
+
+  /* 主功能色：深青蓝 */
+  --color-primary: #1d5060;
+  --color-primary-hover: #133b48;
+  --color-primary-soft: #e2ecef;
+  --color-primary-border: #a4c0c8;
+
+  /* 辅助：档案蓝 */
+  --color-blue: #2b4f8a;
+  --color-blue-soft: #e5eaf2;
+  --color-blue-border: #a9b8d3;
+
+  /* 提醒与风险：橙棕 / 砖红 */
+  --color-warning: #8f5a17;
+  --color-warning-soft: #f6ecdc;
+  --color-warning-border: #d9bf95;
+  --color-danger: #8a3b32;
+  --color-danger-soft: #f5e6e3;
+  --color-danger-border: #d3ada6;
+  --color-success: #2f6144;
+  --color-success-soft: #e4ece5;
+  --color-success-border: #a5c1ad;
+
+  /* 线框：档案的骨架是线，不是阴影 */
+  --color-border: #d9d3c5;
+  --color-border-strong: #bbb3a2;
+
+  --shadow-card: 0 1px 0 rgba(30, 28, 24, 0.04);
+  --shadow-raise: 0 2px 0 rgba(30, 28, 24, 0.06);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+  /* 圆角：方正，接近纸面裁切 */
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-pill: 2px;
+
+  /* 间距 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 56px;
+
+  /* 字体：标题衬线、正文黑体、编号等宽 */
+  --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+    "Source Han Sans SC", "Hiragino Sans GB", system-ui, -apple-system, sans-serif;
+  --font-serif: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC",
+    "STSong", "SimSun", Georgia, "Times New Roman", serif;
+  --font-mono: "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono",
+    Menlo, monospace;
+
+  /* 字号（15—16px 正文，12px+ 辅助） */
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 15px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+  --font-size-2xl: 28px;
+  --font-size-3xl: 34px;
+
+  /* 行高 */
+  --line-height-tight: 1.32;
+  --line-height-normal: 1.7;
+  --line-height-loose: 1.8;
+
+  /* 动效时长 */
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --motion-slow: 300ms;
+  --ease-out: cubic-bezier(0.22, 0.8, 0.36, 1);
+
+  /* 布局 */
+  --layout-max: 1360px;
+  --header-height: 58px;
+}
+
+/* 大字号偏好 */
+:root[data-text-scale="large"] {
+  --font-size-xs: 13px;
+  --font-size-sm: 14px;
+  --font-size-base: 17px;
+  --font-size-md: 18px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 31px;
+  --font-size-3xl: 38px;
+}
